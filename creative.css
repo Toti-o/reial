@@ -1,0 +1,315 @@
+/* ================================================================
+   CREATIVE LAYER — Reial Productions
+   Film-leader aesthetic · cursor aura · marquee · slates
+   ================================================================ */
+
+/* ----------------------------------------------------------------
+   Scroll progress — thin gold playhead at top
+   ---------------------------------------------------------------- */
+.progress{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:150;
+  pointer-events:none;background:transparent;
+}
+.progress__bar{
+  height:100%;background:var(--gold);width:0%;
+  transition:width .1s linear;
+  box-shadow:0 0 14px rgba(240,192,32,.7);
+}
+
+/* ----------------------------------------------------------------
+   FILM LEADER PRELOADER
+   ---------------------------------------------------------------- */
+.leader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--black);
+  display:grid;place-items:center;
+  opacity:1;
+  transition:opacity .55s var(--ease);
+  will-change:opacity;
+}
+.leader.is-done{opacity:0;pointer-events:none}
+
+.leader__stage{
+  position:relative;
+  width:min(64vmin,400px);
+  aspect-ratio:1;
+  display:grid;place-items:center;
+}
+
+/* The outer circle + crosshairs */
+.leader__circle{
+  position:absolute;inset:0;
+  border-radius:50%;
+  border:1.5px solid var(--gold);
+  animation:leaderPulse 2.6s var(--ease);
+}
+.leader__circle::before,
+.leader__circle::after{
+  content:"";position:absolute;background:var(--gold);opacity:.5;
+}
+.leader__circle::before{
+  left:-8%;right:-8%;top:50%;height:1px;transform:translateY(-.5px);
+}
+.leader__circle::after{
+  top:-8%;bottom:-8%;left:50%;width:1px;transform:translateX(-.5px);
+}
+
+/* The rotating sweep */
+.leader__sweep{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg, rgba(240,192,32,.35), transparent 35%);
+  animation:leaderSweep 1s linear infinite;
+  -webkit-mask-image:radial-gradient(circle, transparent 0, transparent 58%, #000 60%, #000 100%);
+  mask-image:radial-gradient(circle, transparent 0, transparent 58%, #000 60%, #000 100%);
+}
+
+/* The number */
+.leader__num{
+  position:relative;z-index:2;
+  font-family:var(--display);
+  font-size:clamp(6rem,20vmin,13rem);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-.06em;
+  color:var(--gold);
+  text-shadow:0 0 40px rgba(240,192,32,.35);
+}
+
+/* The small label under the number */
+.leader__label{
+  position:absolute;left:50%;bottom:-16%;transform:translateX(-50%);
+  font-family:'SF Mono','Fira Code','Courier New',monospace;
+  font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  white-space:nowrap;
+}
+
+/* Corner ticks (like a technical framing guide) */
+.leader::before,
+.leader::after{
+  content:"";position:absolute;
+  width:34px;height:34px;
+  border-color:rgba(255,255,255,.15);
+  border-style:solid;border-width:0;
+}
+.leader::before{top:24px;left:24px;border-top-width:1px;border-left-width:1px}
+.leader::after{bottom:24px;right:24px;border-bottom-width:1px;border-right-width:1px}
+
+@keyframes leaderSweep{to{transform:rotate(360deg)}}
+@keyframes leaderPulse{
+  0%{transform:scale(.94);opacity:0}
+  18%{transform:scale(1);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .leader{display:none!important}
+}
+
+/* ----------------------------------------------------------------
+   CURSOR AURA
+   ---------------------------------------------------------------- */
+.aura{
+  position:fixed;top:0;left:0;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:var(--gold);
+  pointer-events:none;
+  z-index:9998;
+  opacity:0;
+  transform:translate3d(-100px,-100px,0) translate(-50%,-50%);
+  transition:
+    width .32s var(--ease),
+    height .32s var(--ease),
+    background .32s var(--ease),
+    opacity .25s var(--ease),
+    margin .32s var(--ease);
+  mix-blend-mode:difference;
+  display:grid;place-items:center;
+  will-change:transform;
+}
+.aura.is-visible{opacity:1}
+.aura.is-link{
+  width:44px;height:44px;
+  background:rgba(240,192,32,.55);
+}
+.aura.is-play{
+  width:76px;height:76px;
+  background:var(--gold);
+  mix-blend-mode:normal;
+  box-shadow:0 0 40px rgba(240,192,32,.55);
+}
+.aura.is-play::before{
+  content:"";
+  display:block;
+  width:0;height:0;
+  border-left:15px solid var(--black);
+  border-top:10px solid transparent;
+  border-bottom:10px solid transparent;
+  margin-left:5px;
+}
+@media (pointer:coarse){.aura{display:none}}
+
+/* ----------------------------------------------------------------
+   MARQUEE — running title card
+   ---------------------------------------------------------------- */
+.marquee{
+  position:relative;
+  padding:clamp(34px,4.5vw,56px) 0;
+  background:var(--black-2);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+  user-select:none;
+}
+.marquee::before,
+.marquee::after{
+  content:"";position:absolute;top:0;bottom:0;width:140px;
+  pointer-events:none;z-index:2;
+}
+.marquee::before{left:0;background:linear-gradient(90deg,var(--black-2),transparent)}
+.marquee::after{right:0;background:linear-gradient(-90deg,var(--black-2),transparent)}
+
+.marquee__inner{
+  display:flex;align-items:center;gap:48px;
+  white-space:nowrap;
+  animation:marqueeScroll 42s linear infinite;
+  will-change:transform;
+  width:max-content;
+}
+.marquee:hover .marquee__inner{animation-play-state:paused}
+
+.marquee__inner span{
+  font-family:var(--display);
+  font-size:clamp(2.2rem,5.6vw,4.6rem);
+  font-weight:600;
+  letter-spacing:-.03em;
+  line-height:1;
+  color:var(--white);
+}
+.marquee__inner span.alt{
+  color:var(--gold);
+  font-style:italic;
+}
+.marquee__inner em{
+  font-style:normal;
+  color:var(--gold-deep);
+  font-size:clamp(1.2rem,2.6vw,2rem);
+  font-family:var(--display);
+  font-weight:400;
+  opacity:.6;
+}
+
+@keyframes marqueeScroll{to{transform:translateX(-50%)}}
+
+@media (prefers-reduced-motion:reduce){
+  .marquee__inner{animation:none}
+}
+
+/* ----------------------------------------------------------------
+   PRODUCTION SLATE (section labels)
+   ---------------------------------------------------------------- */
+.slate{
+  display:inline-flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px 16px;
+  padding:9px 16px 9px 20px;
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--line);
+  font-family:'SF Mono','Fira Code','Courier New',monospace;
+  font-size:.6rem;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.5);
+  margin-bottom:24px;
+  position:relative;
+  clip-path:polygon(
+    6px 0, calc(100% - 6px) 0,
+    100% 6px, 100% calc(100% - 6px),
+    calc(100% - 6px) 100%, 6px 100%,
+    0 calc(100% - 6px), 0 6px
+  );
+}
+.slate::before{
+  content:"";
+  position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--gold);
+}
+.slate__brand{color:var(--white);font-weight:600}
+.slate__sc{color:var(--gold)}
+.slate__take{color:var(--gold-deep)}
+.slate__sec{color:rgba(255,255,255,.4)}
+.slate__dot{color:var(--grey-2);opacity:.5}
+
+/* ----------------------------------------------------------------
+   FILM STRIP PERFORATIONS
+   ---------------------------------------------------------------- */
+.film-strip{
+  position:relative;
+  height:20px;
+  background:var(--black-2);
+  overflow:hidden;
+}
+.film-strip::before{
+  content:"";
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    90deg,
+    transparent 0, transparent 14px,
+    var(--gold) 14px, var(--gold) 26px,
+    transparent 26px, transparent 40px
+  );
+  opacity:.28;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 40%,#000 60%,transparent 100%);
+  mask-image:linear-gradient(180deg,transparent 0,#000 40%,#000 60%,transparent 100%);
+}
+.film-strip--thin{height:12px}
+.film-strip--thin::before{
+  background-image:repeating-linear-gradient(
+    90deg,
+    transparent 0, transparent 9px,
+    var(--gold) 9px, var(--gold) 17px,
+    transparent 17px, transparent 26px
+  );
+}
+
+/* ----------------------------------------------------------------
+   HERO CURSOR GLOW
+   ---------------------------------------------------------------- */
+.hero__glow{
+  position:absolute;inset:0;z-index:1;
+  pointer-events:none;
+  background:radial-gradient(
+    460px circle at var(--mx,50%) var(--my,50%),
+    rgba(240,192,32,.10),
+    transparent 42%
+  );
+  transition:opacity .4s var(--ease);
+  opacity:0;
+}
+.hero:hover .hero__glow{opacity:1}
+@media (pointer:coarse){.hero__glow{display:none}}
+
+/* ----------------------------------------------------------------
+   REC indicator — visible when lightbox is open
+   ---------------------------------------------------------------- */
+.lb-rec{
+  position:absolute;top:-46px;left:0;
+  display:flex;align-items:center;gap:10px;
+  font-family:'SF Mono','Fira Code','Courier New',monospace;
+  font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);
+}
+.lb-rec::before{
+  content:"";
+  width:10px;height:10px;border-radius:50%;
+  background:#E5484D;
+  box-shadow:0 0 12px rgba(229,72,77,.9);
+  animation:recPulse 1.4s var(--ease) infinite;
+}
+@keyframes recPulse{
+  0%,100%{opacity:.35;transform:scale(.85)}
+  50%{opacity:1;transform:scale(1)}
+}

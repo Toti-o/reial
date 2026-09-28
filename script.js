@@ -83,6 +83,36 @@
     toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 4200);
   }
 
+  /* ============================================================
+     SHOWREEL — autoplay when in view, pause when scrolled past
+     ============================================================ */
+  var reelVideo = $('#reelVideo');
+  if (reelVideo) {
+    /* Try to start playing as soon as it's ready */
+    reelVideo.play().catch(function () {
+      /* Autoplay was blocked — that's fine, controls are visible */
+    });
+
+    if ('IntersectionObserver' in window) {
+      var reelObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            /* Video is on screen — play it */
+            var p = reelVideo.play();
+            if (p && p.catch) p.catch(function () {});
+          } else {
+            /* Video scrolled out of view — pause it */
+            if (!reelVideo.paused) reelVideo.pause();
+          }
+        });
+      }, {
+        threshold: 0.5 /* Fires when at least 50% of the video is visible */
+      });
+
+      reelObserver.observe(reelVideo);
+    }
+  }
+
   /* Work reel */
   var reel = $('#workReel');
   var reelBar = $('#reelBar');
@@ -167,6 +197,9 @@
     if (!lb || !lbFrame) return;
     if (!videoId) { toast('Missing video ID.'); return; }
 
+    /* Pause the showreel if it's playing */
+    if (reelVideo && !reelVideo.paused) reelVideo.pause();
+
     if (currentlyPlaying === videoId && lb.classList.contains('open')) {
       var existingFrame = lbFrame.querySelector('iframe');
       if (existingFrame) existingFrame.focus();
@@ -184,7 +217,7 @@
 
     lbFrame.innerHTML =
       '<iframe src="' + src + '" ' +
-      'title="Reial Productions video" ' +
+      'title="Reial Production video" ' +
       'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" ' +
       'allowfullscreen ' +
       'referrerpolicy="strict-origin-when-cross-origin" ' +
@@ -204,22 +237,7 @@
     if (lastFocus) lastFocus.focus();
   }
 
-  var reelLink = $('#reel');
-  if (reelLink) {
-    reelLink.addEventListener('click', function (e) {
-      e.preventDefault();
-      openVideo(reelLink.dataset.videoId);
-    });
-    reelLink.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openVideo(reelLink.dataset.videoId);
-      }
-    });
-  }
-
   $$('[data-video]').forEach(function (el) {
-    if (el.id === 'reel') return;
     el.addEventListener('click', function (e) {
       var id = el.dataset.video;
       if (id) {
@@ -304,7 +322,7 @@
       }
 
       var lines = [
-        'Hi Reial Productions, I would like to discuss a project.',
+        'Hi Reial Production, I would like to discuss a project.',
         '',
         'Name: ' + name.value.trim(),
         company.value.trim() ? 'Organisation: ' + company.value.trim() : '',

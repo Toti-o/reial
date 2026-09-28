@@ -40,6 +40,7 @@
     <nav class="nav__links" id="navLinks" aria-label="Main">
       <a href="work.html">Work</a>
       <a href="services.html">Services</a>
+      <a href="https://tucheki.com" target="_blank" rel="noopener">Cheki</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <div class="nav__social">
@@ -90,24 +91,14 @@
 </section>
 
 <section class="reel-section" id="showreel" aria-labelledby="reelTitle">
-  <a class="reel" id="reel"
-     data-video-id="DyX1JVl73Gw"
-     href="https://youtu.be/DyX1JVl73Gw"
-     target="_blank" rel="noopener"
-     role="button"
-     aria-label="Play the Reial Production showreel">
-    <div class="reel__poster">
-      <img src="assets/reel-poster.jpg" alt="Frame from a Reial Production film"
-           loading="lazy" decoding="async" width="1600" height="900">
+  <div class="wrap">
+    <div class="reel" id="reel" role="region" aria-label="Reial Production showreel">
+      <video class="reel__video" id="reelVideo" controls preload="metadata" poster="assets/reel-poster.jpg" playsinline muted loop>
+        <source src="assets/video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
-    <div class="reel__content">
-      <span class="reel__play" aria-hidden="true">
-        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      </span>
-      <h2 class="reel__title" id="reelTitle">See the work.</h2>
-      <p class="reel__meta">Commercial · Social · Documentary</p>
-    </div>
-  </a>
+  </div>
 </section>
 
 <section class="proof" id="proof" aria-labelledby="proofTitle">
@@ -317,8 +308,8 @@
     <h2 class="display display--md rv" id="whyTitle">We start with the message.</h2>
     <div class="why-grid rv">
       <div class="why-cell"><h3>Strategy before production</h3><p>We begin with the message, audience and objective. Every production decision flows from a clear communication goal.</p></div>
-      <div class="why-cell"><h3>End-to-end execution</h3><p>From concept and scripting through filming, editing, graphics and final delivery — one team, one process, end to end.</p></div>
-      <div class="why-cell"><h3>Content built for use</h3><p>Assets delivered in the formats your organisation actually needs — social, web, presentations, campaigns, internal comms.</p></div>
+      <div class="why-cell"><h3>End-to-end execution</h3><p>From concept and scripting through filming, editing, graphics and final delivery one team, one process, end to end.</p></div>
+      <div class="why-cell"><h3>Content built for use</h3><p>Assets delivered in the formats your organisation actually needs social, web, presentations, campaigns, internal comms.</p></div>
       <div class="why-cell"><h3>Reliable collaboration</h3><p>We work closely with your team, communicate clearly and structure the production around your priorities and timeline.</p></div>
       <div class="why-cell"><h3>Flexible capability</h3><p>A single promotional film, a multi-day documentary, event coverage, or an ongoing monthly content partnership.</p></div>
       <div class="why-cell"><h3>Platform-ready delivery</h3><p>Every asset is delivered in the aspect ratios, durations and formats your channels actually need.</p></div>
@@ -343,6 +334,43 @@
       <div class="proc-step"><p class="proc-n">05</p><h3 class="proc-t">Deliver</h3><p class="proc-d">You receive organised, platform-ready assets in the agreed formats.</p></div>
     </div>
     <p class="process-note rv">Every project is scoped according to its objective, production requirements and intended use.</p>
+  </div>
+</section>
+
+<section class="built-section" aria-labelledby="builtTitle">
+  <div class="wrap">
+
+    <div class="built-head rv">
+      <div>
+        <span class="kicker">Built by Reial</span>
+        <h2 class="display display--md" id="builtTitle">We also build.</h2>
+      </div>
+      <p class="sub">
+        <strong>Cheki</strong> is a marketplace where independent African
+        creators sell their films, documentaries, music and poetry directly
+        to their audience. We designed and built it and our own films are
+        on there too.
+      </p>
+    </div>
+
+    <a class="built-visual rv" href="https://tucheki.com" target="_blank" rel="noopener" aria-label="Visit Cheki">
+      <span class="built-logo">Cheki</span>
+      <img src="assets/cheki-preview.jpg" alt="The Cheki creator marketplace interface" loading="lazy" decoding="async" width="1920" height="1080">
+    </a>
+
+    <div class="built-foot rv">
+      <a class="btn btn--gold" href="https://tucheki.com" target="_blank" rel="noopener">
+        Visit Cheki
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <p class="built-films">
+        <span>Reial films on Cheki</span>
+        <a href="https://tucheki.com" target="_blank" rel="noopener">The Glass Heart</a>
+        <em>·</em>
+        <a href="https://tucheki.com" target="_blank" rel="noopener">Home</a>
+      </p>
+    </div>
+
   </div>
 </section>
 
@@ -375,9 +403,7 @@
   <div class="wrap">
     <div class="case-grid rv">
       <div class="case-visual">
-        <video class="case-video" autoplay muted loop playsinline preload="metadata" poster="assets/case-mpost-poster.jpg">
-          <source src="assets/case-mpost.mp4" type="video/mp4">
-        </video>
+        <img src="assets/case-mpost.jpg" alt="MPost — ongoing content partnership with Reial Production" loading="lazy" decoding="async" width="900" height="675">
       </div>
       <div>
         <span class="kicker">Case study</span>
@@ -460,7 +486,7 @@
           <p class="form-note">Prefer to talk first? Message us on <a href="https://wa.me/254710840173?text=Hi%20Reial%20Production%2C%20I%E2%80%99m%20interested%20in%20discussing%20a%20video%20production%20project." target="_blank" rel="noopener">WhatsApp</a> or call <a href="tel:+254710840173">0710 840 173</a>.</p>
           <div class="form-success" id="formSuccess" hidden role="status">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-            <span>Thank you. Your enquiry has been received. Reial Production will get back to you shortly.</span>
+            <span>Your enquiry is ready. Tap Send in WhatsApp to reach us.</span>
           </div>
         </form>
       </div>
@@ -495,6 +521,7 @@
         <li><a href="tel:+254710840173">0710 840 173</a></li>
         <li><a href="mailto:reialproductions@gmail.com">reialproductions@gmail.com</a></li>
         <li><span>Kenya | Available across East Africa</span></li>
+        <li style="margin-top:14px"><a href="https://tucheki.com" target="_blank" rel="noopener" style="color:var(--gold)">Cheki — a product by Reial</a></li>
       </ul></div>
     </div>
     <div class="footer-bot">
